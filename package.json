@@ -9,8 +9,10 @@
   "scripts": {
     "open-app": "gulp open-app",
     "start": "npm run open-app",
+    "build": "gulp build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "gulp-watch",
+    "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
   "repository": {
@@ -38,6 +40,7 @@
     "url": "https://github.com/creativetimofficial/soft-ui-design-system/issues"
   },
   "devDependencies": {
+    "del": "^7.1.0",
     "gh-pages": "^6.1.1",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^7.0.1",
