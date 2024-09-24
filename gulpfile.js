@@ -1,63 +1,63 @@
 var gulp = require('gulp');
-var path = require('path');
 var sass = require('gulp-sass')(require('sass'));
 var autoprefixer = require('gulp-autoprefixer');
 var sourcemaps = require('gulp-sourcemaps');
-var open = require('gulp-open');
+var clean = require('gulp-clean');
+var path = require('path');
 
-// Define paths
+// Paths
 var Paths = {
   HERE: './',
   DIST: 'dist/',
   CSS: './assets/css/',
   SCSS_TOOLKIT_SOURCES: './assets/scss/soft-design-system.scss',
   SCSS: './assets/scss/**/**',
-  HTML: './**/*.html',
+  JS: './assets/js/**/*',
+  FONTS: './assets/fonts/**/*',
   IMAGES: './assets/img/**/*'
 };
 
-// Task to compile SCSS
+// Dynamically import `del` to use it in the `clean-dist` task
+gulp.task('clean-dist', async function () {
+  const del = (await import('del')).deleteSync;
+  return del([Paths.DIST]);
+});
+
+// Compile SCSS into CSS and place it in the `dist/assets/css` folder
 gulp.task('compile-scss', function () {
   return gulp.src(Paths.SCSS_TOOLKIT_SOURCES)
       .pipe(sourcemaps.init())
       .pipe(sass().on('error', sass.logError))
       .pipe(autoprefixer())
-      .pipe(sourcemaps.write(Paths.HERE))
-      .pipe(gulp.dest(Paths.CSS));
+      .pipe(sourcemaps.write('.'))
+      .pipe(gulp.dest(path.join(Paths.DIST, 'assets/css')));
 });
 
-// Task to copy HTML files to dist
-gulp.task('copy-html', function () {
-  return gulp.src(Paths.HTML)
-      .pipe(gulp.dest(Paths.DIST));
+// Copy JavaScript files to the `dist/assets/js` folder
+gulp.task('copy-js', function () {
+  return gulp.src(Paths.JS)
+      .pipe(gulp.dest(path.join(Paths.DIST, 'assets/js')));
 });
 
-// Task to copy images to dist
+// Copy fonts to the `dist/assets/fonts` folder
+gulp.task('copy-fonts', function () {
+  return gulp.src(Paths.FONTS)
+      .pipe(gulp.dest(path.join(Paths.DIST, 'assets/fonts')));
+});
+
+// Copy images to the `dist/assets/img` folder
 gulp.task('copy-images', function () {
   return gulp.src(Paths.IMAGES)
       .pipe(gulp.dest(path.join(Paths.DIST, 'assets/img')));
 });
 
-// Clean the dist folder (use dynamic import)
-gulp.task('clean', function () {
-  return import('del').then(del => {
-    return del.deleteSync([Paths.DIST]);
-  });
-});
-
-// Watch task for changes
+// Watch SCSS files for changes and recompile
 gulp.task('watch', function () {
   gulp.watch(Paths.SCSS, gulp.series('compile-scss'));
 });
 
-// Open the app
-gulp.task('open', function () {
-  gulp.src('index.html')
-      .pipe(open());
-});
+// Build task - clean, compile, and copy assets
+gulp.task('build', gulp.series('clean-dist', 'compile-scss', 'copy-js', 'copy-fonts', 'copy-images'));
 
-// Open app with watching
-gulp.task('open-app', gulp.parallel('open', 'watch'));
-
-// Build task: Clean dist, compile SCSS, and copy HTML/images
-gulp.task('build', gulp.series('clean', 'compile-scss', 'copy-html', 'copy-images'));
+// Default task (called when you run `gulp`)
+gulp.task('default', gulp.series('build'));
