@@ -4,6 +4,7 @@ var autoprefixer = require('gulp-autoprefixer');
 var sourcemaps = require('gulp-sourcemaps');
 var clean = require('gulp-clean');
 var path = require('path');
+var open = require('gulp-open');
 
 // Paths
 var Paths = {
@@ -14,7 +15,8 @@ var Paths = {
   SCSS: './assets/scss/**/**',
   JS: './assets/js/**/*',
   FONTS: './assets/fonts/**/*',
-  IMAGES: './assets/img/**/*'
+  IMAGES: './assets/img/**/*',
+  HTML: './pages/**/*.html'
 };
 
 // Dynamically import `del` to use it in the `clean-dist` task
@@ -51,13 +53,28 @@ gulp.task('copy-images', function () {
       .pipe(gulp.dest(path.join(Paths.DIST, 'assets/img')));
 });
 
+// Copy HTML files to the `dist/` folder
+gulp.task('copy-html', function () {
+  return gulp.src(Paths.HTML)
+      .pipe(gulp.dest(Paths.DIST));
+});
+
 // Watch SCSS files for changes and recompile
 gulp.task('watch', function () {
   gulp.watch(Paths.SCSS, gulp.series('compile-scss'));
 });
 
-// Build task - clean, compile, and copy assets
-gulp.task('build', gulp.series('clean-dist', 'compile-scss', 'copy-js', 'copy-fonts', 'copy-images'));
+// Open the app in the browser
+gulp.task('open-app', function () {
+  return gulp.src('index.html')
+      .pipe(open());
+});
+
+// Build task - clean, compile, and copy assets (including HTML)
+gulp.task('build', gulp.series('clean-dist', 'compile-scss', 'copy-js', 'copy-fonts', 'copy-images', 'copy-html'));
 
 // Default task (called when you run `gulp`)
 gulp.task('default', gulp.series('build'));
+
+// Serve task to open the app and watch for changes
+gulp.task('serve', gulp.series('build', gulp.parallel('open-app', 'watch')));
