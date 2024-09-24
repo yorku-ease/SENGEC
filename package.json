@@ -10,11 +10,12 @@
     "open-app": "gulp open-app",
     "start": "npm run open-app",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "gulp-watch"
+    "watch": "gulp-watch",
+    "deploy": "gh-pages -d dist"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/creativetimofficial/soft-ui-design-system.git"
+    "url": "git+https://github.com/wejdeneHaouari/SENGEC.git"
   },
   "keywords": [
     "soft ui design system",
@@ -37,6 +38,7 @@
     "url": "https://github.com/creativetimofficial/soft-ui-design-system/issues"
   },
   "devDependencies": {
+    "gh-pages": "^6.1.1",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^7.0.1",
     "gulp-clean": "^0.4.0",
@@ -46,7 +48,7 @@
     "gulp-sourcemaps": "^2.6.5",
     "sass": "^1.49.9"
   },
-  "homepage": "http://creative-tim.com/product/soft-ui-design-system",
+  "homepage": "https://wejdeneHaouari.github.io/SENGEC",
   "dependencies": {
     "fa-icons": "^0.2.0"
   }
