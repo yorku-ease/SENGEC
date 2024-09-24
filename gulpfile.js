@@ -16,7 +16,8 @@ var Paths = {
   JS: './assets/js/**/*',
   FONTS: './assets/fonts/**/*',
   IMAGES: './assets/img/**/*',
-  HTML: './pages/**/*.html'
+  HTML: './pages/**/*.html',
+  ROOT_HTML: './*.html'
 };
 
 // Dynamically import `del` to use it in the `clean-dist` task
@@ -55,7 +56,7 @@ gulp.task('copy-images', function () {
 
 // Copy HTML files to the `dist/` folder
 gulp.task('copy-html', function () {
-  return gulp.src(Paths.HTML)
+  return gulp.src(Paths.ROOT_HTML)
       .pipe(gulp.dest(Paths.DIST));
 });
 
