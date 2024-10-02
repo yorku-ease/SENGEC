@@ -17,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wejdeneHaouari/SENGEC.git"
+    "url": "git+https://github.com/yorku-ease/SENGEC.git"
   },
   "keywords": [
     "soft ui design system",
@@ -51,7 +51,7 @@
     "gulp-sourcemaps": "^2.6.5",
     "sass": "^1.49.9"
   },
-  "homepage": "https://wejdeneHaouari.github.io/SENGEC",
+  "homepage": "https://yorku-ease.github.io/SENGEC",
   "dependencies": {
     "fa-icons": "^0.2.0"
   }
