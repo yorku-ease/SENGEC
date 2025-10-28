@@ -65,4 +65,5 @@ When you need to make updates to the website:
 
 3. GitHub Pages will automatically rebuild and deploy the site, usually within a few minutes.
 
+
 The website should be accessible at https://yorku-ease.github.io/SENGEC/ after deployment.
